@@ -1,0 +1,131 @@
+{
+	"info": {
+		"_postman_id": "ab02fc7d-3bca-4337-a3f2-dcaa67639e23",
+		"name": "PokemonPrueba",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21526001"
+	},
+	"item": [
+		{
+			"name": "Obtener todos los pokemones",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Validate length response\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.greaterThan(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8765/pokemon",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"pokemon"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener detalle de un pokemon con ID válido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Validate length response\", function () {\r",
+							"    const pokemon = pm.response.json();\r",
+							"\r",
+							"    const variablePokemonId = pm.variables.get(\"pokemonId\");\r",
+							"    pm.expect(pokemon.id).to.eql(variablePokemonId);\r",
+							"    pm.expect(pokemon.nombre).to.exist\r",
+							"    pm.expect(pokemon.tipo).to.exist\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8765/pokemon/{{pokemonId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"pokemon",
+						"{{pokemonId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener detalle de un pokemon con ID no existente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"pm.test(\"Validate message response\", function () {\r",
+							"    const reponse = pm.response.json();\r",
+							"\r",
+							"    pm.expect(reponse.mensaje).to.eql(\"El pokemon solicitado no existe\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8765/pokemon/100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"pokemon",
+						"100"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "pokemonId",
+			"value": "1"
+		}
+	]
+}
