@@ -38,7 +38,7 @@ jobs:
     needs: [build-image]
     services:
       api:
-        image: "${{ env.DOCKER_IMAGE_NAME }}:${{ env.GITHUB_SHA }}"
+        image: estephany16/pokemon-api
         ports:
           - 8765:8765
 
