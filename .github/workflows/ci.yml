@@ -40,4 +40,4 @@ jobs:
         if: always()
         with:
           name: newman-reporte
-          path: ./newman
+          path: ./tests/postman/newman
