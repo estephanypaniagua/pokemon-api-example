@@ -31,6 +31,7 @@ func FindPokemonById(all []Pokemon, id string) *Pokemon {
 			return &p
 		}
 	}
+
 	return nil
 }
 

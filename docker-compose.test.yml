@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  pokemon_api:
+    # Usa la imagen construida en la acción de Github
+    image: "${TESTING_IMAGE}"
+    # Expone el puerto del contenedor a localhost
+    ports:
+      - "8765:8765"
+
+  newman:
+    # Ejecutar newman contra la colección de postman
+    command: run PokemonPrueba.postman_collection.json -r htmlextra
+    # Solo iniciar una vez que el servicio de pokemon_api haya iniciado
+    depends_on:
+      pokemon_api:
+        condition: service_started
+    # Usa una imagen de newman con el reporter htmlextra
+    image: dannydainton/htmlextra
+    # Compartir red con máquina 
+    network_mode: host
+    # Montar archivos locales de postman al contenedor
+    volumes:
+      - "./tests/postman:/etc/newman"
