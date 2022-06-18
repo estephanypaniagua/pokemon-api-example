@@ -26,27 +26,11 @@ jobs:
         with:
           load: true
           push: false
-          tags: |
-            ${{ env.DOCKER_IMAGE_NAME }}:latest
-            ${{ env.DOCKER_IMAGE_NAME }}:${{ github.sha }}
+          tags: ${{ github.run_id }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-  run-tests:
-    name: Ejecutar tests
-    runs-on: ubuntu-20.04
-    needs: [build-image]
-    services:
-      api:
-        image: estephany16/pokemon-api
-        ports:
-          - 8765:8765
-
-    steps:
-      - name: Clonar repositorio
-        uses: actions/checkout@v3
-
-      - name: Ejecutar tests con newman
-        uses: matt-ball/newman-action@master
-        with:
-          collection: tests/postman/PokemonPrueba.postman_collection.json
+      - name: Ejecutar tests con docker compose
+        run: |
+          export TESTING_IMAGE="${{ github.run_id }}"
+          docker compose -f docker-compose.test.yml up --exit-code-from newman

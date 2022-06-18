@@ -47,3 +47,13 @@ go build
 # Ejecutar proyecto
 ./pokemon-api-example
 ```
+
+## Docker
+
+```bash
+# Construir imagen con docker
+docker build . -t estephany16/pokemon-api
+
+# Ejecutar tests con docker compose
+docker compose up --exit-code-from newman
+```
