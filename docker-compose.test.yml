@@ -17,6 +17,8 @@ services:
         condition: service_started
     # Usa una imagen de newman con el reporter htmlextra
     image: dannydainton/htmlextra
+    # Compartir red con máquina 
+    network_mode: host
     # Montar archivos locales de postman al contenedor
     volumes:
       - "./tests/postman:/etc/newman"
