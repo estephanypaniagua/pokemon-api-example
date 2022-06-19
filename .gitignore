@@ -21,3 +21,6 @@
 go.work
 
 pokemon-api-example
+
+# Remove Newman's report
+tests/postman/newman
