@@ -66,5 +66,15 @@ func main() {
 		c.JSON(http.StatusOK, pokemon)
 	})
 
+	r.POST("/pokemon", func(c *gin.Context) {
+		var newPokemon Pokemon
+		if err := c.BindJSON(&newPokemon); err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"mensaje": "No se encuentran los parámetros necesarios"})
+			return
+		}
+		pokemons = append(pokemons, newPokemon)
+		c.IndentedJSON(http.StatusCreated, newPokemon)
+	})
+
 	r.Run(":8765")
 }
