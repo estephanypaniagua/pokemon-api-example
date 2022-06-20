@@ -1,7 +1,9 @@
 package main
 
 import (
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -123,6 +125,11 @@ func main() {
 		}
 		c.Status(http.StatusNoContent)
 	})
-
-	r.Run(":8765")
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8765"
+	}
+	if err := r.Run(":" + port); err != nil {
+		log.Panicf("error: %s", err)
+	}
 }
