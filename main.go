@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -32,8 +31,19 @@ func FindPokemonById(all []Pokemon, id string) *Pokemon {
 			return &p
 		}
 	}
-
 	return nil
+}
+
+func FindPokemonLocation(all []Pokemon, id string) int {
+	var location = 0
+	for _, p := range all {
+		if id != p.Id {
+			location++
+		} else {
+			return location
+		}
+	}
+	return -1
 }
 
 func main() {
@@ -79,11 +89,7 @@ func main() {
 
 	r.PUT("/pokemon/:id", func(c *gin.Context) {
 		pokemonId := c.Param("id")
-		id, err := strconv.Atoi(pokemonId)
-		if err != nil {
-			c.JSON(http.StatusNotFound, gin.H{"mensaje": "ID con error"})
-			return
-		}
+		newPokemonId := FindPokemonLocation(pokemons, pokemonId)
 
 		var updatePokemon Pokemon
 		if err := c.BindJSON(&updatePokemon); err != nil {
@@ -91,11 +97,31 @@ func main() {
 			return
 		}
 
-		pokemons[id-1].Id = updatePokemon.Id
-		pokemons[id-1].Name = updatePokemon.Name
-		pokemons[id-1].Type = updatePokemon.Type
+		pokemons[newPokemonId].Id = updatePokemon.Id
+		pokemons[newPokemonId].Name = updatePokemon.Name
+		pokemons[newPokemonId].Type = updatePokemon.Type
 
 		c.IndentedJSON(http.StatusOK, updatePokemon)
+	})
+
+	r.DELETE("/pokemon/:id", func(c *gin.Context) {
+		pokemonId := c.Param("id")
+		id := FindPokemonLocation(pokemons, pokemonId)
+
+		if id-1 < 0 || id-1 >= len(pokemons) {
+			c.JSON(http.StatusNotFound, gin.H{"mensaje": "ID fuera de rango"})
+			return
+		} else {
+			newLength := 0
+			for index := range pokemons {
+				if id != index {
+					pokemons[newLength] = pokemons[index]
+					newLength++
+				}
+			}
+			pokemons = pokemons[:newLength]
+		}
+		c.Status(http.StatusNoContent)
 	})
 
 	r.Run(":8765")

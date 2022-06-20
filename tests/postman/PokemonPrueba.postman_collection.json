@@ -147,7 +147,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"id\": \"5\",\r\n    \"nombre\": \"snorlax\",\r\n    \"tipo\": \"normal\"\r\n}",
+					"raw": "{\r\n    \"id\": \"6\",\r\n    \"nombre\": \"snorlax\",\r\n    \"tipo\": \"normal\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -194,7 +194,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"id\": \"5\",\r\n    \"nombre\": \"onyx\",\r\n    \"tipo\": \"roca\"\r\n}",
+					"raw": "{\r\n    \"id\": \"6\",\r\n    \"nombre\": \"onyx\",\r\n    \"tipo\": \"roca\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -202,7 +202,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8765/pokemon/5",
+					"raw": "http://localhost:8765/pokemon/6",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -210,7 +210,50 @@
 					"port": "8765",
 					"path": [
 						"pokemon",
-						"5"
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un pokemon",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8765/pokemon/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"pokemon",
+						"6"
 					]
 				}
 			},
