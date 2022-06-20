@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -74,6 +75,27 @@ func main() {
 		}
 		pokemons = append(pokemons, newPokemon)
 		c.IndentedJSON(http.StatusCreated, newPokemon)
+	})
+
+	r.PUT("/pokemon/:id", func(c *gin.Context) {
+		pokemonId := c.Param("id")
+		id, err := strconv.Atoi(pokemonId)
+		if err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"mensaje": "ID con error"})
+			return
+		}
+
+		var updatePokemon Pokemon
+		if err := c.BindJSON(&updatePokemon); err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"mensaje": "No se encuentran los parámetros necesarios"})
+			return
+		}
+
+		pokemons[id-1].Id = updatePokemon.Id
+		pokemons[id-1].Name = updatePokemon.Name
+		pokemons[id-1].Type = updatePokemon.Type
+
+		c.IndentedJSON(http.StatusOK, updatePokemon)
 	})
 
 	r.Run(":8765")

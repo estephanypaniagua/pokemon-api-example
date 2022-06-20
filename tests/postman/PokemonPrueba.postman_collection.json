@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "ab02fc7d-3bca-4337-a3f2-dcaa67639e23",
+		"_postman_id": "89ae6aac-10b4-459c-ae0b-d7f7b12bbc35",
 		"name": "PokemonPrueba",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "21526001"
+		"_exporter_id": "2088509"
 	},
 	"item": [
 		{
@@ -107,7 +107,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8765/pokemon/100",
+					"raw": "http://localhost:8765/pokemon/6",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -115,17 +115,132 @@
 					"port": "8765",
 					"path": [
 						"pokemon",
-						"100"
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un nuevo pokemon",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"Validate message response\", function () {\r",
+							"    const pokemon = pm.response.json();\r",
+							"    pm.expect(pokemon.id).to.exist\r",
+							"    pm.expect(pokemon.nombre).to.exist\r",
+							"    pm.expect(pokemon.tipo).to.exist\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"5\",\r\n    \"nombre\": \"snorlax\",\r\n    \"tipo\": \"normal\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8765/pokemon",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"pokemon"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar un pokemon",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Validate message response\", function () {\r",
+							"    const pokemon = pm.response.json();\r",
+							"    pm.expect(pokemon.id).to.exist\r",
+							"    pm.expect(pokemon.nombre).to.exist\r",
+							"    pm.expect(pokemon.tipo).to.exist\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": \"5\",\r\n    \"nombre\": \"onyx\",\r\n    \"tipo\": \"roca\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8765/pokemon/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8765",
+					"path": [
+						"pokemon",
+						"5"
 					]
 				}
 			},
 			"response": []
 		}
 	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
 			"key": "pokemonId",
-			"value": "1"
+			"value": "2"
 		}
 	]
 }
