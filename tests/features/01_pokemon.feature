@@ -30,3 +30,9 @@ Dado que tengo un pokemon
 Cuando quiero actualizar su informacion
 Entonces obtengo las caracteristicas del pokemon actualizado
 Y un codigo de respuesta 200
+
+Escenario: Eliminar un pokemon
+Dado que tengo un pokemon que quiero eliminar
+Cuando envio su id
+Entonces se elimina el pokemon
+Y obtengo un codigo 204
